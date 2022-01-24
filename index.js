@@ -14,10 +14,10 @@ function myMap(collection, callback) {
 }
 
 function myReduce(collection, callback, acc) {
-    let copy = [...collection];
+    let copy = Array.isArray() ? [...collection] : Object.values(collection);
     acc = acc || copy.shift();
-    for (let accessor in copy) {
-        acc = callback(acc, copy[accessor], copy);
+    for (let accessor of copy) {
+        acc = callback(acc, accessor, copy);
     }
 return acc;
 }
@@ -54,12 +54,12 @@ function myFirst(collection, n) {
             count++;
         }
     }
-    return tempArr.length > 1 ? tempArr : tempArr[0];
+    return tempArr.length > 1 ? tempArr : collection[0];
 }
 
 function myLast(collection, n) {
     let indexStart = collection.length - n;    
-    return n > 1 ? collection.slice(indexStart, collection.length) : collection[indexStart];
+    return n > 1 ? collection.slice(indexStart, collection.length) : parseInt(collection.slice(collection.length - 1));
 }
 
 function myKeys(obj) {
